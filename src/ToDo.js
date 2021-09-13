@@ -7,6 +7,7 @@ import React from "react";
 import NewToDo from "./components/newToDo";
 import InputToDo from "./components/InputToDo";
 import CompleteToDo from "./components/CompleteToDo"
+import EditToDo from "./components/EditToDo"
 
 
 let selectedElement = null;
@@ -22,11 +23,7 @@ class ToDo extends React.Component {
 				{id: '2', title: 'default todo3', completed: false, selected: false},
 			]
 		};
-		// this.passwordRef = 'dddd44';
 	  }
-
-	// const newToDo = document.querySelector(".todo__form-newtodo");
-	// const newToDo = document.querySelector("#ss");
 
 	addToDo = todo => {           //добавление элемента
 		this.setState(state => {
@@ -56,7 +53,6 @@ class ToDo extends React.Component {
 		}
 		for(let i = 0; i < liAll.length; i++) {  //снимаем выделение (если есть) со всех значений
 			console.log(i + ' ' + id);
-			// liAll[i].className += ' todo__list-todos__item_u';
 			liAll[i].style.backgroundColor = '#fff';
 		}
 		// selectedElement = id;
@@ -65,7 +61,21 @@ class ToDo extends React.Component {
 		console.log('- ' + id + ' ' + elem + selectedElement);
 	}
 
-	setAsCompleted = () => {
+	editToDo = () => {								//редактирование элемента
+		if(selectedElement == null) {
+			alert("ToDo is not selected");
+			return ;
+		}
+		this.setState(state => {
+			let { todos } = state;
+			let currentValue = todos[selectedElement].title;
+			let editedValue = prompt("You can edit your ToDo: ", currentValue);
+			todos[selectedElement].title = editedValue;
+			return todos;
+		});
+	}
+
+	setAsCompleted = () => {						//пометить как выполненный
 		if(selectedElement == null) {
 			alert("ToDo is not selected");
 			return ;
@@ -97,38 +107,12 @@ class ToDo extends React.Component {
 				</div>
 
 
-
-				{/************************* */}
-				{/* <div className="todo__list"> */}
-					{/* <ul className="todo__list-todos">
-						<li className="todo__list-todos__item" id="todo0" onClick={AddNew}>default ToDo</li>
-					</ul> */}
-				{/* </div> */}
-
 				<div className="todo__form">
 					<InputToDo addToDo={this.addToDo}></InputToDo>
 					<CompleteToDo setAsCompleted={this.setAsCompleted}></CompleteToDo>
+					<EditToDo editToDo={this.editToDo}></EditToDo>
 
-					{/* <button onClick={this.setAsCompleted} id="complete" className="todo__form-button">Set as complete</button> */}
-					{/* <InputToDo></InputToDo> */}
-					{/* <form action="#"> */}
-						{/* <input ref={ref => this.passwordRef = ref} id="login" type="text" className="todo__form-newtodo" placeholder="enter a new ToDo..."/>
-						<AddNew newtodo={this.passwordRef.value} />
-
-						<button className="button" onClick={(e)=>{
-							if (this.passwordRef.value === "") {
-							alert('Field is empty');
-							return ;
-							}
-						console.log(` password: ${this.passwordRef.value}`)
-						}}>Войти</button> */}
-						
-						{/* <button onClick={AddNew} id="addnew" className="todo__form-button">Add new ToDo</button> */}
-						{/* <button id="delete" class="todo__form-button">Delete</button>
-						<button id="delete_all" class="todo__form-button">Delete all</button>
-						<button id="edit" class="todo__form-button">Edit</button>
-						<button id="complete" class="todo__form-button">Set as complete</button> */}
-					{/* </form> */}
+					{/* <button onClick={this.editToDo} id="complete" className="todo__form-button">Edit</button> */}
 				</div>
 				
 			</div>
@@ -137,76 +121,3 @@ class ToDo extends React.Component {
 }
 
 export default ToDo;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // import logo from './logo.svg';
-// // import './App.css';
-
-
-
-// import React from "react";
-// import './ToDo.css';
-// // import './ToDo_array';
-// import './AddNew.js';
-// import AddNew from "./AddNew.js";
-
-// class ToDo extends React.Component {
-
-// 	constructor(props) {
-// 		super(props);
-// 		this.passwordRef = 'dddd44';
-// 	  }
-
-// 	// const newToDo = document.querySelector(".todo__form-newtodo");
-// 	// const newToDo = document.querySelector("#ss"); 
-
-// 	render(){
-// 		return (
-// 			<div className="todo">
-
-// 				<div className="todo__list">
-// 					<ul className="todo__list-todos">
-// 						<li className="todo__list-todos__item" id="todo0" onClick={AddNew}>default ToDo</li>
-// 					</ul>
-// 				</div>
-
-// 				<div className="todo__form">
-// 					<form action="#">
-// 						<input ref={ref => this.passwordRef = ref} id="login" type="text" className="todo__form-newtodo" placeholder="enter a new ToDo..."/>
-// 						<AddNew newToDo={this.passwordRef.value} />
-// 						<button className="button" onClick={(e)=>{
-// 						if (this.passwordRef.value === "") {
-// 						alert('Field is empty');
-// 						return ;
-// 					}
-// 						console.log(` password: ${this.passwordRef.value}`)
-// 						}}>Войти</button>
-// 						{/* <button onClick={AddNew} id="addnew" className="todo__form-button">Add new ToDo</button> */}
-// 						{/* <button id="delete" class="todo__form-button">Delete</button>
-// 						<button id="delete_all" class="todo__form-button">Delete all</button>
-// 						<button id="edit" class="todo__form-button">Edit</button>
-// 						<button id="complete" class="todo__form-button">Set as complete</button> */}
-// 					</form>
-// 				</div>
-				
-// 			</div>
-// 		);
-// 	}
-// }
-
-// export default ToDo;
