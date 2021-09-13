@@ -6,11 +6,10 @@
 import React from "react";
 import NewToDo from "./components/newToDo";
 import InputToDo from "./components/InputToDo";
-// import './AddNew.js';
-// import AddNew from "./AddNew.js";
-// import newToDo from "./components/newToDo";
+import CompleteToDo from "./components/CompleteToDo"
 
-let selectedElement;
+
+let selectedElement = null;
 
 class ToDo extends React.Component {
 
@@ -21,16 +20,15 @@ class ToDo extends React.Component {
 				{id: '0', title: 'default todo1', completed: false, selected: false},
 				{id: '1', title: 'default todo2', completed: true, selected: false},
 				{id: '2', title: 'default todo3', completed: false, selected: false},
-			],
-			selElem: null,
+			]
 		};
-		this.passwordRef = 'dddd44';
+		// this.passwordRef = 'dddd44';
 	  }
 
 	// const newToDo = document.querySelector(".todo__form-newtodo");
 	// const newToDo = document.querySelector("#ss");
 
-	addToDo = todo => {
+	addToDo = todo => {           //добавление элемента
 		this.setState(state => {
 			let { todos } = state;
 			todos.push({
@@ -43,7 +41,9 @@ class ToDo extends React.Component {
 		});
 	};
 
-	selectToDo = (id) => {
+
+
+	selectToDo = (id) => {                //выделение элемента
 		// let a = document.querySelector(`#${id}`).value;
 		let elem = document.getElementById(id);
 		let liAll = document.querySelectorAll(".todo__list-todos__item");
@@ -64,6 +64,22 @@ class ToDo extends React.Component {
 		elem.style.backgroundColor = color;
 		console.log('- ' + id + ' ' + elem + selectedElement);
 	}
+
+	setAsCompleted = () => {
+		if(selectedElement == null) {
+			alert("ToDo is not selected");
+			return ;
+		}
+		this.setState(state => {
+			let { todos } = state;
+			todos[selectedElement].completed = true;
+			return todos;
+		});
+		// todos[selectedToDo].classList.add('todo-complete');
+	}
+
+
+
 
 	render() {
 		const {todos} = this.state;
@@ -91,6 +107,9 @@ class ToDo extends React.Component {
 
 				<div className="todo__form">
 					<InputToDo addToDo={this.addToDo}></InputToDo>
+					<CompleteToDo setAsCompleted={this.setAsCompleted}></CompleteToDo>
+
+					{/* <button onClick={this.setAsCompleted} id="complete" className="todo__form-button">Set as complete</button> */}
 					{/* <InputToDo></InputToDo> */}
 					{/* <form action="#"> */}
 						{/* <input ref={ref => this.passwordRef = ref} id="login" type="text" className="todo__form-newtodo" placeholder="enter a new ToDo..."/>
