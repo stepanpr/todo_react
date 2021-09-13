@@ -4,13 +4,14 @@
 
 
 import React from "react";
-import NewToDo from "./components/newToDo";
+import NewToDo from "./components/NewToDo";
 import InputToDo from "./components/InputToDo";
 import CompleteToDo from "./components/CompleteToDo"
-import EditToDo from "./components/EditToDo"
+import EditToDo from "./components/EditToDo";
+import DeleteToDo from "./components/DeleteToDo";
 
 
-let selectedElement = null;
+let selectedElement = null;       //выделенный элемент в текущий момент
 
 class ToDo extends React.Component {
 
@@ -88,6 +89,20 @@ class ToDo extends React.Component {
 		// todos[selectedToDo].classList.add('todo-complete');
 	}
 
+	deleteToDo = () => {
+		if (selectedElement != null) {
+			this.setState(state => {
+				let { todos } = state;
+				todos.splice(selectedElement, 1);
+				selectedElement = null;
+				return todos;
+			});
+		} else if (selectedElement == null) {
+			alert("ToDo is not selected");
+			return ;
+		}
+	}
+
 
 
 
@@ -111,8 +126,11 @@ class ToDo extends React.Component {
 					<InputToDo addToDo={this.addToDo}></InputToDo>
 					<CompleteToDo setAsCompleted={this.setAsCompleted}></CompleteToDo>
 					<EditToDo editToDo={this.editToDo}></EditToDo>
+					<DeleteToDo deleteToDo={this.deleteToDo}></DeleteToDo>
 
+					{/* <button onClick={this.deleteToDo} id="delete" className="todo__form-button">Delete</button> */}
 					{/* <button onClick={this.editToDo} id="complete" className="todo__form-button">Edit</button> */}
+
 				</div>
 				
 			</div>
