@@ -5,8 +5,9 @@
 
 import React from "react";
 import NewToDo from "./components/newToDo";
-import './AddNew.js';
-import AddNew from "./AddNew.js";
+import InputToDo from "./components/InputToDo";
+// import './AddNew.js';
+// import AddNew from "./AddNew.js";
 // import newToDo from "./components/newToDo";
 
 let selectedElement;
@@ -29,6 +30,19 @@ class ToDo extends React.Component {
 	// const newToDo = document.querySelector(".todo__form-newtodo");
 	// const newToDo = document.querySelector("#ss");
 
+	addToDo = todo => {
+		this.setState(state => {
+			let { todos } = state;
+			todos.push({
+				id: todos.length !== 0 ? todos.length : 0,
+				title: todo,
+				completed: false,
+				selected: false
+			});
+			return todos;
+		});
+	};
+
 	selectToDo = (id) => {
 		// let a = document.querySelector(`#${id}`).value;
 		let elem = document.getElementById(id);
@@ -40,13 +54,13 @@ class ToDo extends React.Component {
 			console.log('selectedToDo = ' + elem);
 			return ;
 		}
-
 		for(let i = 0; i < liAll.length; i++) {  //снимаем выделение (если есть) со всех значений
 			console.log(i + ' ' + id);
 			// liAll[i].className += ' todo__list-todos__item_u';
 			liAll[i].style.backgroundColor = '#fff';
 		}
-		selectedElement = id;
+		// selectedElement = id;
+		selectedElement = this.state.todos.map(todo => todo.id).indexOf(id);
 		elem.style.backgroundColor = color;
 		console.log('- ' + id + ' ' + elem + selectedElement);
 	}
@@ -76,8 +90,10 @@ class ToDo extends React.Component {
 				{/* </div> */}
 
 				<div className="todo__form">
-					<form action="#">
-						<input ref={ref => this.passwordRef = ref} id="login" type="text" className="todo__form-newtodo" placeholder="enter a new ToDo..."/>
+					<InputToDo addToDo={this.addToDo}></InputToDo>
+					{/* <InputToDo></InputToDo> */}
+					{/* <form action="#"> */}
+						{/* <input ref={ref => this.passwordRef = ref} id="login" type="text" className="todo__form-newtodo" placeholder="enter a new ToDo..."/>
 						<AddNew newtodo={this.passwordRef.value} />
 
 						<button className="button" onClick={(e)=>{
@@ -86,14 +102,14 @@ class ToDo extends React.Component {
 							return ;
 							}
 						console.log(` password: ${this.passwordRef.value}`)
-						}}>Войти</button>
+						}}>Войти</button> */}
 						
 						{/* <button onClick={AddNew} id="addnew" className="todo__form-button">Add new ToDo</button> */}
 						{/* <button id="delete" class="todo__form-button">Delete</button>
 						<button id="delete_all" class="todo__form-button">Delete all</button>
 						<button id="edit" class="todo__form-button">Edit</button>
 						<button id="complete" class="todo__form-button">Set as complete</button> */}
-					</form>
+					{/* </form> */}
 				</div>
 				
 			</div>
