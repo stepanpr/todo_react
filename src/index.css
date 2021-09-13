@@ -51,12 +51,13 @@ code {
 	background-color: #fff;
 }
 
-.todo__list-todos__item_u {
+/* .todo__list-todos__item_u {
 	background-color: #fff;
-}
+} */
 
 .todo-complete {
 	color: #000;
+	background-color: rgb(218, 253, 228);
 }
 .todo-complete::after {
     content: "✔️";

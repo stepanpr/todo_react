@@ -9,6 +9,7 @@ import InputToDo from "./components/InputToDo";
 import CompleteToDo from "./components/CompleteToDo"
 import EditToDo from "./components/EditToDo";
 import DeleteToDo from "./components/DeleteToDo";
+import DeleteAll from "./components/DeleteAll"
 
 
 let selectedElement = null;       //выделенный элемент в текущий момент
@@ -19,9 +20,9 @@ class ToDo extends React.Component {
 		super(props);
 		this.state = {
 			todos: [
-				{id: '0', title: 'default todo1', completed: false, selected: false},
-				{id: '1', title: 'default todo2', completed: true, selected: false},
-				{id: '2', title: 'default todo3', completed: false, selected: false},
+				{id: 'todo0', title: 'default todo1', completed: false, selected: false},
+				{id: 'todo1', title: 'default todo2', completed: true, selected: false},
+				{id: 'todo2', title: 'default todo3', completed: false, selected: false},
 			]
 		};
 	  }
@@ -30,7 +31,7 @@ class ToDo extends React.Component {
 		this.setState(state => {
 			let { todos } = state;
 			todos.push({
-				id: todos.length !== 0 ? todos.length : 0,
+				id: todos.length !== 0 ? 'todo' + todos.length : 0,
 				title: todo,
 				completed: false,
 				selected: false
@@ -89,7 +90,7 @@ class ToDo extends React.Component {
 		// todos[selectedToDo].classList.add('todo-complete');
 	}
 
-	deleteToDo = () => {
+	deleteToDo = () => {                   //удаление выделенного todo
 		if (selectedElement != null) {
 			this.setState(state => {
 				let { todos } = state;
@@ -101,6 +102,25 @@ class ToDo extends React.Component {
 			alert("ToDo is not selected");
 			return ;
 		}
+	}
+
+	deleteAll = () => {             		//удаление всех todo
+		if(this.state.todos.length > 0 && window.confirm("Are you shure?") )
+		{
+			this.setState(state => {
+				let { todos } = state;
+				// for (let i in todos) {
+				// 	delete todos[i];
+				// }
+				while(todos.length > 0)
+					todos.pop();
+				todos.length = 0;
+				selectedElement = null;
+				return todos;
+			});
+		}
+		if (this.state.todos.length === 0)
+			alert("ToDo List is empty...");
 	}
 
 
@@ -127,8 +147,10 @@ class ToDo extends React.Component {
 					<CompleteToDo setAsCompleted={this.setAsCompleted}></CompleteToDo>
 					<EditToDo editToDo={this.editToDo}></EditToDo>
 					<DeleteToDo deleteToDo={this.deleteToDo}></DeleteToDo>
+					{/* <DeleteAll deleteAll={this.DeleteAll}></DeleteAll> */}
+					<DeleteAll deleteAll={this.deleteAll}></DeleteAll>
 
-					{/* <button onClick={this.deleteToDo} id="delete" className="todo__form-button">Delete</button> */}
+					{/* <button onClick={this.deleteAll.bind(this)} id="deleteAll" className="todo__form-button">Delete All</button> */}
 					{/* <button onClick={this.editToDo} id="complete" className="todo__form-button">Edit</button> */}
 
 				</div>

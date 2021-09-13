@@ -13,6 +13,9 @@ class InputToDo extends React.Component {
 		if(input){
 			this.props.addToDo(input);
 			this.setState({input: ''});
+		} else if (input === '')
+		{
+			alert('Field is empty...');
 		}
 	};
 
@@ -29,14 +32,11 @@ class InputToDo extends React.Component {
 		const { input } = this.state;
 		return (
 			<div>
-				<input className="todo__form-newtodo" onChange={this.inputChange} onKeyPress={this.handleEnter} value={ input }></input>
-				<button className="todo__form-button" onClick= {this.addToDo}>Add New</button>
+				<form action="#">
+					<input className="todo__form-newtodo" onChange={this.inputChange} onKeyPress={this.handleEnter} value={ input }></input>
+					<button className="todo__form-button" onClick= {this.addToDo}>Add New</button>
+				</form>
 			</div>
-			// <form action="#">
-				// <input>ff</input>
-				// <button>Add New</button>
-			// </form>
-			// <div>ddd</div>
 		);
 	}
 
