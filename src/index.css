@@ -51,13 +51,10 @@ code {
 	background-color: #fff;
 }
 
-/* .todo__list-todos__item_u {
-	background-color: #fff;
-} */
 
 .todo-complete {
 	color: #000;
-	background-color: rgb(218, 253, 228);
+	background-color: lightgreen;
 }
 .todo-complete::after {
     content: "✔️";
@@ -69,14 +66,13 @@ code {
 
 .todo__form {
 	/* border: 1px solid rgb(68, 184, 113); */
-	margin-top: 30px;
-	padding: 20px;
-	
+	/* margin-top: 30px; */
+	padding: 30px;
 }
 
 .todo__form-newtodo {
 	display: block;
-	width: 70%;
+	width: 100%;
 	line-height: 30px;
 	border-radius: 5px;
 	border: 1px solid rgb(37, 155, 57);
@@ -98,4 +94,11 @@ code {
 	
 }
 
+.counter {
+	display: inline-block;
+	margin-top: 10px;
+	margin-left: 30px;
+	/* border-bottom: 1px solid green; */
+	color: grey;
+}
 
