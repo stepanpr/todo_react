@@ -35,27 +35,20 @@ class InputToDo extends React.Component {
 
 
 	render() {
-		const { input } = this.state;
-
 		// console.log('INPUT SELECTED' + this.props.selected);
 		// console.log( 'editing in Input : ' + this.props.editing.yes + ' ' + this.props.editing.value);
-		if (this.props.editing.yes) {
 
-			return (
-				<div>
-					<input className="todo__form-newtodo-editing" onChange={this.inputChange} onKeyPress={this.handleEnter} value={ input }></input>
-					<button className="todo__form-button-editing" onClick= {this.addToDo}>Edit value</button>
-				</div>
-			);
-		}
-		if (!this.props.editing.yes) {
-			return (
-				<div>
-					<input className="todo__form-newtodo" onChange={this.inputChange} onKeyPress={this.handleEnter} value={ input }></input>
-					<button className="todo__form-button" onClick= {this.addToDo}>Add New</button>
-				</div>
-			);
-		}
+		const { input } = this.state;
+
+		const classNameInput = this.props.editing.yes ? 'todo__form-newtodo-editing' : 'todo__form-newtodo';
+		const classNameButton = this.props.editing.yes ? 'todo__form-button-editing' : 'todo__form-button';
+		const valueOfButton = this.props.editing.yes ? 'Edit value' : 'Add New';
+		return (
+			<div>
+				<input className={classNameInput} onChange={this.inputChange} onKeyPress={this.handleEnter} value={ input }></input>
+				<button className={classNameButton} onClick= {this.addToDo}>{valueOfButton}</button>
+			</div>
+		);
 	}
 }
 
