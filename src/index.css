@@ -79,6 +79,15 @@ code {
 	
 }
 
+.todo__form-newtodo-editing {
+	display: block;
+	width: 100%;
+	line-height: 30px;
+	border-radius: 5px;
+	border: 2px solid rgb(155, 133, 37);
+	box-shadow: 2px 2px 3px 0px rgba(245, 162, 10, 0.938);
+}
+
 .todo__form-button {
 	margin-top: 20px;
 	display: block;
@@ -89,9 +98,19 @@ code {
 	border-radius: 5px;
 	box-shadow: 2px 2px 3px 0 rgb(68, 184, 113);
 	border: 1px solid rgb(37, 155, 57);
+}
 
-
-	
+.todo__form-button-editing {
+	margin-top: 20px;
+	display: block;
+	width: 30%;
+	line-height: 30px;
+	/* border: 1px solid #000; */
+	background-color: rgb(68, 184, 113);
+	border-radius: 5px;
+	/* box-shadow: 2px 2px 3px 0 rgb(68, 184, 113); */
+	box-shadow: 2px 2px 3px 0px rgba(245, 162, 10, 0.938);
+	border: 1px solid rgb(37, 155, 57);
 }
 
 .counter {
