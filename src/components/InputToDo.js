@@ -21,7 +21,7 @@ const InputToDo = (props) => {
 
 	const handleEnter = event => {
 		if(event.key === 'Enter')
-			this.addToDo();
+			addToDo();
 	};
 
 

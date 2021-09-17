@@ -14,18 +14,7 @@ let selectedElement = null;       							//выделенный элемент �
 
 const ToDo = (props) => {
 
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		todos: [
-	// 			{id: 'todo0', title: 'Hello', completed: true, selected: false},
-	// 			{id: 'todo1', title: 'default todo', completed: false, selected: false},
-	// 			{id: 'todo2', title: 'default todo', completed: false, selected: false},
-	// 		],
-	// 		// editing : false,
-	// 		editing: { yes: false, value: '', }
-	// 	};
-	//   }
+	
 
 	  const [todos, setTodos] = useState([
 		{id: 'todo0', title: 'Hello', completed: true, selected: false},
@@ -80,9 +69,11 @@ const ToDo = (props) => {
 		}
 	}
 
+
+
 	const createNewId = () => {
 
-		while(1) {
+		while(todos.length !== 0) {
 			let newId = 'todo' + Math.floor(Math.random() * (100000000 - 1 + 1)) + 1;
 			for (let i = 0; i < todos.length; i++) {
 				// alert (todos.length);
@@ -92,46 +83,26 @@ const ToDo = (props) => {
 					return newId;
 			}
 		}
+		return 'todo' + Math.floor(Math.random() * (100000000 - 1 + 1)) + 1;
 	} 
-	// function() { return 'todo' + Math.floor(Math.random() * (100000000 - 1 + 1)) + 1; }
+
+
 
 	const addToDo = (todoTitle) => {           							//добавление и изменение элемента
-		// console.log('EDIT');
-		// alert('1111'+todos[selectedElement].title );
 
-		if (editing.yes === true) {					//изменение элемента
+		//изменение элемента
+		if (editing.yes === true) {					
 			console.log('EDIT in addToDo!');
-
-			// this.setState(state => {
-			// 	let { todos } = state;
-			// 	// let currentValue = todos[selectedElement].title;
-			// 	// let editedValue = prompt("You can edit your ToDo: ", currentValue);
-			// 	todos[selectedElement].title = todo;
-			// 	return todos;
-			// });
 			setTodos(() => {
 				let newTodos = [...todos];
 				newTodos[selectedElement].title = todoTitle;
 				return newTodos;
 			});
-			// alert('1111'+todos[selectedElement].title );
-			// this.setState({
-			// 	editing: { yes: false, value: '' }
-			// });
 			setEditing( {yes: false, value: ''} );
 			return ;
 		}
 
-		// this.setState(state => {								//добавление элемента
-		// 	let { todos } = state;
-		// 	todos.push({
-		// 		id: todos.length !== 0 ? 'todo' + todos.length : 'todo' + 0,
-		// 		title: todo,
-		// 		completed: false,
-		// 		selected: false
-		// 	});
-		// 	return todos;
-		// });
+		//добавление элемента
 		let newTodo = { //формируем объект нового todo //todos.length !== 0 ? 'todo' + todos.length : 'todo' + 0
 			id: createNewId(), 
 			title: todoTitle,
@@ -139,20 +110,10 @@ const ToDo = (props) => {
 			selected: false
 		};
 		let newTodos = [...todos, newTodo];
-		// alert(newTodos);
 		setTodos(() => {
-			// let newTodos = [...todos, todo];
-			// newTodos.push({
-			// 	id: todos.length !== 0 ? 'todo' + todos.length : 'todo' + 0,
-			// 	title: todo,
-			// 	completed: false,
-			// 	selected: false
-			// });
 			return newTodos;
 		});
-				
-		// alert(todos[selectedElement].title );
-	};
+	}
 
 	const editToDo = () => {										//редактирование элемента
 		if(selectedElement == null) {
@@ -160,20 +121,12 @@ const ToDo = (props) => {
 			return ;
 		}
 		if (editing.yes === true) {
-			// this.setState({
-			// 	editing: { yes: false, value: '' }
-			// });
+
 			setEditing( {yes: false, value: ''} )
 		} else {
-			// let newTodos = [...todos];
-			// let val = newTodos[selectedElement].title;
 			let val = todos[selectedElement].title;
-			// this.setState({
-			// 	editing: { yes: true, value: val }
-			// });
 			setEditing({yes: true, value: val})
 			// console.log('EDIT : ' + this.state.editing.yes + ' ' + this.state.editing.value + ' val: ' + val);
-
 		}
 		
 	}
@@ -184,11 +137,6 @@ const ToDo = (props) => {
 				alert("ToDo is not selected");
 				return ;
 			}
-			// this.setState(state => {
-			// 	let { todos } = state;
-			// 	todos[selectedElement].completed = true;
-			// 	return todos;
-			// });
 			let newTodos = [...todos];
 			newTodos[selectedElement].completed = true;
 			setTodos(newTodos);
@@ -198,20 +146,10 @@ const ToDo = (props) => {
 	const deleteToDo = () => {                  	 				//удаление выделенного todo
 		if (!editing.yes) {
 			if (selectedElement != null) {
-				// let newTodos = [...todos];
+
 				let newTodos = todos.filter((elem) => elem.id !== todos[selectedElement].id);
 				setTodos(newTodos);
 				selectedElement = null;
-				
-				// this.setState(state => {
-				// 	let { todos } = state;
-				// 	// todos.splice(selectedElement, 1);
-				// 	delete todos[selectedElement];
-				// 	// todos.length -= 1;
-				// 	selectedElement = null;
-				// 	return todos;
-				// });
-
 
 			} else if (selectedElement == null) {
 				alert("ToDo is not selected");
@@ -224,37 +162,23 @@ const ToDo = (props) => {
 		if (!editing.yes) {
 			if(todos.length > 0)
 			{
-				let newTodos = [...todos];
-				setTodos(() => {
-
-					// let { todos } = state;
-					// for (let i in todos) {
-					// 	delete todos[i];
-					// }
-					// while(todos.length > 0) {
-					// 	if(todos.completed === true)
-					// 		// todos.pop();
-					// }
-					let cntCompl = 0;
-					for(let i = 0; i < newTodos.length; i++) {
-						(newTodos[i] && newTodos[i].completed === true) ? cntCompl += 1 : cntCompl += 0;
-						console.log('cnt ' + cntCompl);
-					}
-					cntCompl === 0 ? alert('Sorry, but you have not completed ToDos...') : cntCompl = window.confirm("Are you shure?");
-					console.log('cnt ' + cntCompl);
-					if (cntCompl === true) {
-						for (let i = 0; i < newTodos.length; i++) {
-							if(newTodos[i] && newTodos[i].completed === true)
-							{
-								console.log('del completed');
-								delete newTodos[i];
-							}
-						}
-					}
-					// todos.length = 0;
-					selectedElement = null;
-					return newTodos;
-				});
+				let cntCompl = 0;
+				function setCompleted(elem) {
+					if ((elem.completed === true)) 
+					cntCompl++; 
+					return elem.completed !== true
+				}
+				let newTodos = todos.filter(setCompleted);
+				if (cntCompl === 0) {
+					alert("You don't have completed ToDos");
+					return ;
+				}
+				if (window.confirm("Are you shure?"))
+				{
+					setTodos(() => {
+						return newTodos;
+					});
+				}
 			}
 			if (todos.length === 0)
 				alert("ToDo List is empty...");
@@ -263,10 +187,7 @@ const ToDo = (props) => {
 
 	const countElements = () => {
 		let sum = 0;
-		for(let i = 0; i < todos.length; i++) {
-			// if(this.state.todos[i].completed === false)
-			(todos[i] && todos[i].completed === false) ? sum+=1 : sum+=0 ;
-		}
+		todos.forEach((todo) => {(todo.completed === false) ? sum+=1 : sum+=0})
 		let counter = document.querySelector(".counter");
 		if (counter)
 			sum > 0 ? counter.style.color = 'grey' : counter.style.color = 'green';
@@ -275,35 +196,31 @@ const ToDo = (props) => {
 	}
 
 
-	// render() {
-		// const {todos} = this.state;
-		// console.log( 'editing : ' + this.state.editing);
 
-		return (
-			<div className="todo">
-				<h1 className="counter">ToDos left: {countElements()}</h1>
+	return (
+		<div className="todo">
+			<h1 className="counter">ToDos left: {countElements()}</h1>
 
-				<div className="todo__list">
-					<ul className="todo__list-todos">
-					{todos.map(todo => (
-						<NewToDo selectToDo={() => selectToDo(todo.id)} todo={todo} key={todo.id} ></NewToDo>
-					))}
-					</ul>
-				</div>
-
-
-				<div className="todo__form">
-					<InputToDo addToDo={addToDo} editing={editing} selected={todos[selectedElement]}></InputToDo> {/* editing??? copy? */}
-					<CompleteToDo setAsCompleted={setAsCompleted}></CompleteToDo>
-					<EditToDo editToDo={editToDo} editing={editing}></EditToDo>  {/* editing??? copy? */}
-					<DeleteToDo deleteToDo={deleteToDo}></DeleteToDo>
-					<DeleteAll deleteAll={deleteAll}></DeleteAll>
-					{/* <button onClick={this.deleteAll.bind(this)} id="deleteAll" className="todo__form-button">Delete All</button> */}
-				</div>
-				
+			<div className="todo__list">
+				<ul className="todo__list-todos">
+				{todos.map(todo => (
+					<NewToDo selectToDo={() => selectToDo(todo.id)} todo={todo} key={todo.id} ></NewToDo>
+				))}
+				</ul>
 			</div>
-		);
-	// }
+
+
+			<div className="todo__form">
+				<InputToDo addToDo={addToDo} editing={editing} selected={todos[selectedElement]}></InputToDo> {/* editing??? copy? */}
+				<CompleteToDo setAsCompleted={setAsCompleted}></CompleteToDo>
+				<EditToDo editToDo={editToDo} editing={editing}></EditToDo>  {/* editing??? copy? */}
+				<DeleteToDo deleteToDo={deleteToDo}></DeleteToDo>
+				<DeleteAll deleteAll={deleteAll}></DeleteAll>
+				{/* <button onClick={this.deleteAll.bind(this)} id="deleteAll" className="todo__form-button">Delete All</button> */}
+			</div>
+			
+		</div>
+	);
 }
 
 export default ToDo;
