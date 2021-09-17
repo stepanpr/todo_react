@@ -1,5 +1,5 @@
 
-// import React from "react";
+
 import React, { useState } from 'react';
 import NewToDo from "./components/NewToDo";
 import InputToDo from "./components/InputToDo";
@@ -10,21 +10,19 @@ import DeleteAll from "./components/DeleteAll"
 
 
 
-let selectedElement = null;       							//выделенный элемент в текущий момент
+   							
 
 const ToDo = (props) => {
 
-	
+	const [todos, setTodos] = useState([
+	{id: 'todo0', title: 'Hello', completed: true, selected: false},
+	{id: 'todo1', title: 'default todo', completed: false, selected: false},
+	{id: 'todo2', title: 'default todo', completed: false, selected: false},
+	]);
 
-	  const [todos, setTodos] = useState([
-		{id: 'todo0', title: 'Hello', completed: true, selected: false},
-		{id: 'todo1', title: 'default todo', completed: false, selected: false},
-		{id: 'todo2', title: 'default todo', completed: false, selected: false},
-	  ]);
+	const [editing, setEditing] = useState({ yes: false, value: '', })
 
-	  const [editing, setEditing] = useState({ yes: false, value: '', })
-
-	//   const [selectedElement, setSelectedElement] = useState(null);
+	const [selectedElement, setSelectedElement] = useState(null);    //выделенный элемент в текущий момент
 
 
 
@@ -36,13 +34,13 @@ const ToDo = (props) => {
 			let color = 'lightgray';
 			if (elem.style.backgroundColor === color && elem.value !== 12345) { //если элемент уже выделен, то снимаем выделение
 				elem.style.backgroundColor = 'white';
-				selectedElement = null;
+				setSelectedElement(null);
 				console.log('selectedToDo = ' + elem);
 				return ;
 			}
 			if ((elem.style.backgroundColor === color) && elem.value === 12345) { //если элемент (выполненный) уже выделен, то снимаем выделение
 				elem.style.backgroundColor = 'lightgreen';
-				selectedElement = null;
+				setSelectedElement(null);
 				console.log('selectedToDo = ' + elem);
 				return ;
 			}
@@ -54,7 +52,7 @@ const ToDo = (props) => {
 					liAll[i].style.backgroundColor = 'lightgreen';
 			}
 			// selectedElement = id;
-			selectedElement = todos.map(todo => todo.id).indexOf(id);
+			setSelectedElement(todos.map(todo => todo.id).indexOf(id));
 
 			// let { todos } = this.state;
 			// let val = todos[selectedElement].title;
@@ -149,7 +147,7 @@ const ToDo = (props) => {
 
 				let newTodos = todos.filter((elem) => elem.id !== todos[selectedElement].id);
 				setTodos(newTodos);
-				selectedElement = null;
+				setSelectedElement(null);
 
 			} else if (selectedElement == null) {
 				alert("ToDo is not selected");
@@ -178,9 +176,10 @@ const ToDo = (props) => {
 					setTodos(() => {
 						return newTodos;
 					});
+					setSelectedElement(null);
 				}
 			}
-			if (todos.length === 0)
+			else if (todos.length === 0)
 				alert("ToDo List is empty...");
 		}
 	}
