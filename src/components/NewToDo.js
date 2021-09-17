@@ -17,11 +17,11 @@ const NewToDo = (props) => {
 		);
 	else if (props.todo.completed && props.todo.selected)
 		return (
-			<li className={className} id={props.todo.id} onClick={selectToDo} style={{backgroundColor: 'gray'}}>{props.todo.title}</li>
+			<li className={className} id={props.todo.id} onClick={selectToDo} style={{backgroundColor: 'lightgray'}}>{props.todo.title}</li>
 		);
 	else if (!props.todo.completed && props.todo.selected)
 		return (
-			<li className={className} id={props.todo.id} onClick={selectToDo} style={{backgroundColor: 'gray'}}>{props.todo.title}</li>
+			<li className={className} id={props.todo.id} onClick={selectToDo} style={{backgroundColor: 'lightgray'}}>{props.todo.title}</li>
 		);
 	else if (!props.todo.completed && !props.todo.selected)
 		return (	

@@ -51,14 +51,6 @@ code {
 	background-color: #fff;
 }
 
-.todo__list-todos__item-selected{
-	/* list-style-type: none; */
-	font-size: 20px;
-	border-bottom: 1px solid #259b39;
-	background-color: lightgray;
-}
-
-lightgray
 
 .todo-complete {
 	color: #000;
