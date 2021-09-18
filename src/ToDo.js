@@ -148,12 +148,11 @@ const ToDo = (props) => {
 			if(todos.length > 0)
 			{
 				let cntCompl = 0;
-				function setCompleted(elem) {
-					if ((elem.completed === true)) 
-					cntCompl++; 
-					return elem.completed !== true
-				}
-				let newTodos = todos.filter(setCompleted);
+				let newTodos = todos.reduce((newArr, elem) => { 
+					elem.completed === true ? cntCompl++ : newArr = [...newArr, elem]; 
+					return newArr; 
+				}, []);
+
 				if (cntCompl === 0) {
 					alert("You don't have completed ToDos");
 					return ;
