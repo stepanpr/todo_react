@@ -172,8 +172,7 @@ const ToDo = (props) => {
 
 	/* cчетчик оставшихся элементов */
 	const countElements = () => {
-		let sum = 0;
-		todos.forEach((todo) => {(todo.completed === false) ? sum+=1 : sum+=0})
+		let sum = todos.reduce((sum, elem) => (elem.completed === false) ? sum+=1 : sum+=0, 0);
 		let counter = document.querySelector(".counter");
 		if (counter)
 			sum > 0 ? counter.style.color = 'grey' : counter.style.color = 'green';
