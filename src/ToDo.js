@@ -1,6 +1,7 @@
 
 
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import NewToDo from "./components/NewToDo";
 import InputToDo from "./components/InputToDo";
 import CompleteToDo from "./components/CompleteToDo"
@@ -15,9 +16,9 @@ import DeleteAll from "./components/DeleteAll"
 const ToDo = (props) => {
 
 	let [todos, setTodos] = useState([
-		{id: 'todo0', title: 'Hello', completed: true, selected: false},
-		{id: 'todo1', title: 'default todo', completed: false, selected: false},
-		{id: 'todo2', title: 'default todo', completed: false, selected: false},
+		{id: uuidv4(), title: 'Hello', completed: true, selected: false},
+		{id: uuidv4(), title: 'default todo', completed: false, selected: false},
+		{id: uuidv4(), title: 'default todo', completed: false, selected: false},
 	]);
 
 	const [editing, setEditing] = useState({ yes: false, value: '', })
@@ -39,7 +40,7 @@ const ToDo = (props) => {
 
 			if (todo.selected === true) { 								//если элемент (выполненный) уже выделен, то снимаем выделение
 				newTodos[indexOfCurrent].selected = false;
-				setTodos(() => {return newTodos; });
+				setTodos(newTodos);
 				setSelectedElement(null);
 				return ;
 			}
@@ -47,25 +48,25 @@ const ToDo = (props) => {
 			newTodos.map((elem) => elem.selected = false); 				//снимаем выделение (если есть) со всех значений кроме выполненных
 			newTodos[indexOfCurrent].selected = true;					//меняем поле selected текущего элемента на true
 
-			setTodos(() => { return newTodos; });
+			setTodos(newTodos);
 		}
 	}
 
 
-	/* создание нового ID */
-	const createNewId = () => {
+	// /* создание нового ID */
+	// const createNewId = () => {
 
-		while(todos.length !== 0) {
-			let newId = 'todo' + Math.floor(Math.random() * (100000000 - 1 + 1)) + 1;
-			for (let i = 0; i < todos.length; i++) {
-				if (todos[i].id === newId)
-					break ;
-				if (i === todos.length-1)
-					return newId;
-			}
-		}
-		return 'todo' + Math.floor(Math.random() * (100000000 - 1 + 1)) + 1;
-	} 
+	// 	while(todos.length !== 0) {
+	// 		let newId = 'todo' + Math.floor(Math.random() * (100000000 - 1 + 1)) + 1;
+	// 		for (let i = 0; i < todos.length; i++) {
+	// 			if (todos[i].id === newId)
+	// 				break ;
+	// 			if (i === todos.length-1)
+	// 				return newId;
+	// 		}
+	// 	}
+	// 	return 'todo' + Math.floor(Math.random() * (100000000 - 1 + 1)) + 1;
+	// } 
 
 
 	/* добавление и изменение элемента */
@@ -85,15 +86,13 @@ const ToDo = (props) => {
 
 		//добавление элемента
 		let newTodo = { 											//формируем объект нового todo
-			id: createNewId(), 
+			id: uuidv4(), //createNewId(), 
 			title: todoTitle,
 			completed: false,
 			selected: false
 		};
 		let newTodos = [...todos, newTodo];
-		setTodos(() => {
-			return newTodos;
-		});
+		setTodos(newTodos);
 	}
 
 

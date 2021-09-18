@@ -25,10 +25,6 @@ const InputToDo = (props) => {
 	};
 
 
-		// console.log('INPUT SELECTED' + this.props.selected);
-		// console.log( 'editing in Input : ' + this.props.editing.yes + ' ' + this.props.editing.value);
-		// const { input } = this.state;
-
 		const classNameInput = props.editing.yes ? 'todo__form-newtodo-editing' : 'todo__form-newtodo';
 		const classNameButton = props.editing.yes ? 'todo__form-button-editing' : 'todo__form-button';
 		const valueOfButton = props.editing.yes ? 'Edit value' : 'Add New';
