@@ -1,11 +1,18 @@
 import React from "react";
+import classnames from 'classnames';
+
 
 function EditToDo(props) {
+
+	const editClassNames = classnames(
+		'todo__form-button', {
+		'button-editing': props.editing.yes,
+	});
 	
-	const className = props.editing.yes ? 'todo__form-button-editing' : 'todo__form-button';
+
 	const valueOfButton = props.editing.yes ? 'Cancel' : 'Edit';
 	return (
-		<button onClick={props.editToDo} id="edit" className={className}>{valueOfButton}</button>
+		<button onClick={props.editToDo} id="edit" className={classnames(editClassNames)}>{valueOfButton}</button>
 	);
 }
 

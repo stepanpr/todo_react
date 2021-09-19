@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classnames from 'classnames';
 
 
 const InputToDo = (props) => {
@@ -25,15 +26,25 @@ const InputToDo = (props) => {
 	};
 
 
-		const classNameInput = props.editing.yes ? 'todo__form-newtodo-editing' : 'todo__form-newtodo';
-		const classNameButton = props.editing.yes ? 'todo__form-button-editing' : 'todo__form-button';
-		const valueOfButton = props.editing.yes ? 'Edit value' : 'Add New';
-		return (
-			<div>
-				<input className={classNameInput} onChange={inputChange} onKeyPress={handleEnter} value={ input }></input>
-				<button className={classNameButton} onClick= {addToDo}>{valueOfButton}</button>
-			</div>
-		);
+	const inputclassNames = classnames({
+		'todo__form-newtodo': true,
+		'newtodo-editing': props.editing.yes,
+	});
+	
+	const buttonclassNames = classnames({
+		'todo__form-button': true,
+		'todo__form-button_addnew': true,
+		'button-editing': props.editing.yes,
+	});
+	
+	const valueOfButton = props.editing.yes ? 'Edit value' : 'Add New';
+
+	return (
+		<div>
+			<input className={classnames(inputclassNames)} onChange={inputChange} onKeyPress={handleEnter} value={ input }></input>
+			<button className={classnames(buttonclassNames)} onClick= {addToDo}>{valueOfButton}</button>
+		</div>
+	);
 }
 
 export default InputToDo;
