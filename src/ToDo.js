@@ -173,22 +173,17 @@ const ToDo = (props) => {
 
 	/* cчетчик оставшихся элементов */
 	const countElements = () => {
-		// let sum = todos.reduce((sum, elem) => (elem.completed === false) ? sum+=1 : sum+=0, 0);
 		return todos.reduce((sum, elem) => (elem.completed === false) ? sum+=1 : sum+=0, 0);
 	}
 
-	// const counterClassName =() => {return (countElements() > 0) ? "counter" : "counter-zero"; }
-
-	var counterClassName = classnames(
+	var counterClassNames = classnames(
 		'counter', {
 		'counter-zero': countElements() === 0,
 	  });
 
 	return (
 		<div className="todo">
-			{/* <h1 className="counterClassName()">ToDos left: {countElements()}</h1> */}
-			 <h1 className={ classnames(counterClassName) }>ToDos left: {countElements()}</h1>
-
+			 <h1 className={ classnames(counterClassNames) }>ToDos left: {countElements()}</h1>
 
 			<div className="todo__list">
 				<ul className="todo__list-todos">

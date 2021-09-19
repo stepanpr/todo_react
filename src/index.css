@@ -36,13 +36,12 @@ code {
 
 }
 
+
+/*** TODO LIST ***/
 .todo__list {
 	/* border: 1px solid rgb(68, 184, 113); */
 	padding: 20px 30px;
 }
-
-/* .todo__list-todos {
-} */
 
 .todo__list-todos__item {
 	/* list-style-type: none; */
@@ -51,18 +50,22 @@ code {
 	background-color: #fff;
 }
 
-
-.todo-complete {
+.item-completed {
 	color: #000;
-	background-color: lightgreen;
+	background-color: rgb(141, 253, 141);
 }
-.todo-complete::after {
+.item-completed::after {
     content: "✔️";
 	float: right;
 }
 
+.item-selected {
+	background-color: rgb(156, 173, 145);
+}
 
 
+
+/*** TODO FORM ***/
 
 .todo__form {
 	/* border: 1px solid rgb(68, 184, 113); */
@@ -112,6 +115,9 @@ code {
 	box-shadow: 2px 2px 3px 0px rgba(245, 162, 10, 0.938);
 	border: 1px solid rgb(37, 155, 57);
 }
+
+
+/*** COUNTER ***/
 
 .counter {
 	display: inline-block;
