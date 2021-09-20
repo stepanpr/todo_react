@@ -7,8 +7,8 @@ const Status = (props) => {
 
 	let timerId; 
 	const statusClassNames = classnames({
-		'status': props.status.show === true,
-		'status-error': props.status.error === true,
+		'status': props.status.show,
+		'status-error': props.status.error,
 		'status-hide': props.status.show === false
 	});
 

@@ -174,14 +174,15 @@ const ToDo = (props) => {
 	/* cчетчик оставшихся элементов */
 	console.log(status);
 	const countElements = () => {
-		return todos.reduce((sum, elem) => (elem.completed === false) ? sum+=1 : sum+=0, 0);
+
+		return todos.reduce((sum, elem) => (elem.completed === false) ? sum+1 : sum, 0);
 	}
 
 	const counterClassNames = classnames(
-		'counter', {
-		'counter-zero': countElements() === 0,
-	  });
-
+		'counter',
+		countElements() === 0 && 'counter-zero'
+	);
+	
 	return (
 		<div className="todo">
 			 <h1 className={ classnames(counterClassNames) }>ToDos left: {countElements()}</h1>
