@@ -5,24 +5,23 @@ import classnames from "classnames";
 
 const Status = (props) => {
 
-	let statusClassNames = classnames({
-		'action': props.status.show === true,
-		'action-error': props.status.error === true,
-		'action-hide': props.status.show === false
+	let timerId; 
+	const statusClassNames = classnames({
+		'status': props.status.show === true,
+		'status-error': props.status.error === true,
+		'status-hide': props.status.show === false
 	});
 
 	const statusHide = () => {
 		props.setStatus({show: false, value: '', error: false});
-		
 	}
+
 	const show = () => {
 
-		// if (props.status.show === false)
-			// alert(props.status.show);
-
+		clearInterval(timerId);
 		if (props.status.show === true)
 		{
-			setTimeout(statusHide, 1400)
+			timerId = setTimeout(statusHide, 1400)
 			return props.status.value;
 		}
 	}

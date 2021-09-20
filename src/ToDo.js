@@ -58,28 +58,11 @@ const ToDo = (props) => {
 	}
 
 
-	// /* создание нового ID */
-	// const createNewId = () => {
-
-	// 	while(todos.length !== 0) {
-	// 		let newId = 'todo' + Math.floor(Math.random() * (100000000 - 1 + 1)) + 1;
-	// 		for (let i = 0; i < todos.length; i++) {
-	// 			if (todos[i].id === newId)
-	// 				break ;
-	// 			if (i === todos.length-1)
-	// 				return newId;
-	// 		}
-	// 	}
-	// 	return 'todo' + Math.floor(Math.random() * (100000000 - 1 + 1)) + 1;
-	// } 
-
-
 	/* добавление и изменение элемента */
 	const addToDo = (todoTitle) => {  
 		if (todoTitle === "")
 		{
 			setStatus({show: true, value: "Field is empty...", error: true});
-			// alert('Field is empty...');
 			return ;
 		}
 		//изменение элемента
@@ -96,7 +79,7 @@ const ToDo = (props) => {
 
 		//добавление элемента
 		let newTodo = { 											//формируем объект нового todo
-			id: uuidv4(), //createNewId(), 
+			id: uuidv4(), 
 			title: todoTitle,
 			completed: false,
 			selected: false
@@ -110,7 +93,6 @@ const ToDo = (props) => {
 	const editToDo = () => {				
 		if(selectedElement == null) {
 			setStatus({show: true, value: "ToDo is not selected", error: true});
-			// alert("ToDo is not selected");
 			return ;
 		}
 		if (editing.yes === true) {
@@ -129,8 +111,10 @@ const ToDo = (props) => {
 		if (!editing.yes) {
 			if(selectedElement == null) {
 				setStatus({show: true, value: "ToDo is not selected", error: true});
-				// alert(status.show + ' ' + status.value);
-				// alert("ToDo is not selected");
+				return ;
+			}
+			if (todos[selectedElement].completed === true){
+				setStatus({show: true, value: "This has already been done", error: true});
 				return ;
 			}
 			let newTodos = [...todos];
@@ -151,7 +135,6 @@ const ToDo = (props) => {
 
 			} else if (selectedElement == null) {
 				setStatus({show: true, value: "ToDo is not selected", error: true});
-				// alert("ToDo is not selected");
 				return ;
 			}
 		}
@@ -169,7 +152,6 @@ const ToDo = (props) => {
 				}, []);
 
 				if (cntCompl === 0) {
-					// alert("You don't have completed ToDos");
 					setStatus({show: true, value: "You don't have completed ToDos", error: true});
 					return ;
 				}
@@ -183,7 +165,6 @@ const ToDo = (props) => {
 			}
 			else if (todos.length === 0)
 				setStatus({show: true, value: "ToDo List is empty...", error: true});
-				// alert("ToDo List is empty...");
 		}
 	}
 
@@ -215,11 +196,11 @@ const ToDo = (props) => {
 
 
 			<div className="todo__form">
-				<InputToDo addToDo={addToDo} editing={editing} selected={todos[selectedElement]}></InputToDo> {/* editing??? copy? */}
+				<InputToDo addToDo={addToDo} editing={editing} selected={todos[selectedElement]}></InputToDo>
 				<div className="todo__form_actionsfield">
 					<div className='todo__form_actionsfield-item'>
 						<CompleteToDo setAsCompleted={setAsCompleted}></CompleteToDo>
-						<EditToDo editToDo={editToDo} editing={editing}></EditToDo>  {/* editing??? copy? */}
+						<EditToDo editToDo={editToDo} editing={editing}></EditToDo>
 						<DeleteToDo deleteToDo={deleteToDo}></DeleteToDo>
 						<DeleteAll deleteAll={deleteAll}></DeleteAll>
 					</div>

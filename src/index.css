@@ -15,6 +15,7 @@ code {
 * {
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
 	font-size: 15px;
 
 }
@@ -39,7 +40,7 @@ code {
 
 /*** TODO LIST ***/
 .todo__list {
-	border: 1px solid rgb(68, 184, 113);
+	/* border: 1px solid rgb(68, 184, 113); */
 	padding: 20px 30px;
 }
 
@@ -60,7 +61,7 @@ code {
 }
 
 .item-selected {
-	background-color: rgb(156, 173, 145);
+	background-color: rgb(197, 204, 193);
 }
 
 
@@ -68,7 +69,7 @@ code {
 /*** TODO FORM ***/
 
 .todo__form {
-	border: 1px solid rgb(68, 184, 113);
+	/* border: 1px solid rgb(68, 184, 113); */
 	/* margin-top: 30px; */
 	margin: 30px;
 	margin-bottom: 50px;
@@ -79,16 +80,30 @@ code {
 	/* justify-content: space-between; */
 }
 
-.todo__form-newtodo {
-	display: inline-block;
+.todo__form-send-box {
+	/* border: 1px solid rgb(155, 70, 37); */
+	margin-bottom: 20px;
+	display: flex;
+	max-width: 100%;
 	width: 100%;
-	line-height: 30px;
-	/* border-radius: 5px 0px 0 5px; */
-	border-radius: 5px;
+	justify-content: center;
+	/* width: auto; */
 
+}
+
+.todo__form-newtodo {
+	display: block;
+	/* width: 100%; */
+	width: 75%;
+	line-height: 30px;
+	border-radius: 5px 0px 0px 5px;
+	/* border-radius: 5px; */
+	/* border: 1px solid rgba(0, 0, 0, 0.2); */
+	box-shadow: 2px 2px 3px 0 rgb(68, 184, 113);
 	border: 1px solid rgb(37, 155, 57);
 	/* float: left; */
 	/* margin-bottom: 20px; */
+	
 }
 
 .newtodo-editing {
@@ -97,13 +112,10 @@ code {
 }
 
 .todo__form-button {
-	margin-top: 20px;
+	margin-bottom: 20px;
 	display: block;
-	/* display: inline-block; */
-
 	width: 60%;
 	line-height: 30px;
-	/* border: 100px solid #000; */
 	background-color: rgb(68, 184, 113);
 	border-radius: 5px;
 	box-shadow: 2px 2px 3px 0 rgb(68, 184, 113);
@@ -112,11 +124,10 @@ code {
 
 .todo__form-button_addnew {
 	/* float: left; */
-	/* margin-top: 0px; */
-	/* border-radius: 0 5px 5px 0; */
-	/* width: 28%; */
-	width: 30%;
-
+	margin: 0;
+	border-radius: 0 5px 5px 0;
+	width: 25%;
+	border-left: none;
 }
 
 .button-editing {
@@ -124,28 +135,31 @@ code {
 }
 
 .todo__form_actionsfield {
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	display: flex;
 	width: 100%;
 	margin-bottom: 20px;
 }
 .todo__form_actionsfield-item {
-	border: 1px solid rgb(116, 57, 57);
+	/* border: 1px solid rgb(116, 57, 57); */
 	width: 50%;
 
 }
 
 
 /*** STATUS ***/
-.action {
+.status {
 	color: rgb(67, 156, 26);
 	font-size: 21px;
+	/* border: 1px solid black; */
+	margin-top: 30%;
+	text-align: center;
+
 }
-.action-error {
+.status-error {
 	color: rgb(163, 153, 15);
-	font-size: 21px;
 }
-.action-hide {
+.status-hide {
 	display: none;
 }
 

@@ -36,7 +36,7 @@ const InputToDo = (props) => {
 	const valueOfButton = props.editing.yes ? 'Edit value' : 'Add New';
 
 	return (
-		<div>
+		<div className='todo__form-send-box'>
 			<input className={classnames(inputclassNames)} onChange={inputChange} onKeyPress={handleEnter} value={ input }></input>
 			<button className={classnames(buttonclassNames)} onClick= {addToDo}>{valueOfButton}</button>
 		</div>
