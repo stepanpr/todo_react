@@ -41,7 +41,7 @@ const ToDo = (props) => {
 			setSelectedElement(indexOfCurrent);
 			console.log(indexOfCurrent + ' ' + selectedElement);
 
-			let newTodos = [...todos];
+			const newTodos = [...todos];
 
 			if (todo.selected === true) { 								//если элемент (выполненный) уже выделен, то снимаем выделение
 				newTodos[indexOfCurrent].selected = false;
@@ -69,7 +69,7 @@ const ToDo = (props) => {
 		if (editing.yes === true) {					
 			console.log('EDIT in addToDo!');
 			setTodos(() => {
-				let newTodos = [...todos];
+				const newTodos = [...todos];
 				newTodos[selectedElement].title = todoTitle;
 				return newTodos;
 			});
@@ -84,7 +84,7 @@ const ToDo = (props) => {
 			completed: false,
 			selected: false
 		};
-		let newTodos = [...todos, newTodo];
+		const newTodos = [...todos, newTodo];
 		setTodos(newTodos);
 	}
 
@@ -117,7 +117,7 @@ const ToDo = (props) => {
 				setStatus({show: true, value: "This has already been done", error: true});
 				return ;
 			}
-			let newTodos = [...todos];
+			const newTodos = [...todos];
 			newTodos[selectedElement].completed = true;
 			setTodos(newTodos);
 			setStatus({show: true, value: "Congrats!", error: false});
@@ -129,7 +129,7 @@ const ToDo = (props) => {
 		if (!editing.yes) {
 			if (selectedElement != null) {
 
-				let newTodos = todos.filter((elem) => elem.id !== todos[selectedElement].id);
+				const newTodos = todos.filter((elem) => elem.id !== todos[selectedElement].id);
 				setTodos(newTodos);
 				setSelectedElement(null);
 
@@ -146,7 +146,7 @@ const ToDo = (props) => {
 			if(todos.length > 0)
 			{
 				let cntCompl = 0;
-				let newTodos = todos.reduce((newArr, elem) => { 
+				const newTodos = todos.reduce((newArr, elem) => { 
 					elem.completed === true ? cntCompl++ : newArr = [...newArr, elem]; 
 					return newArr; 
 				}, []);
