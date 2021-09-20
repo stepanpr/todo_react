@@ -9,7 +9,7 @@ const Status = (props) => {
 	const statusClassNames = classnames({
 		'status': props.status.show,
 		'status-error': props.status.error,
-		'status-hide': props.status.show === false
+		'status-hide': !props.status.show
 	});
 
 	const statusHide = () => {
