@@ -9,6 +9,8 @@ import CompleteToDo from "./components/CompleteToDo"
 import EditToDo from "./components/EditToDo";
 import DeleteToDo from "./components/DeleteToDo";
 import DeleteAll from "./components/DeleteAll"
+import Status from "./components/Status"
+
 
 
 
@@ -25,6 +27,8 @@ const ToDo = (props) => {
 	const [editing, setEditing] = useState({ yes: false, value: '', })
 
 	let [selectedElement, setSelectedElement] = useState(null);    					//выделенный элемент в текущий момент
+
+	const [status, setStatus] = useState({show: false, value: '555', error: false});
 
 
 
@@ -72,7 +76,12 @@ const ToDo = (props) => {
 
 	/* добавление и изменение элемента */
 	const addToDo = (todoTitle) => {  
-
+		if (todoTitle === "")
+		{
+			setStatus({show: true, value: "Field is empty...", error: true});
+			// alert('Field is empty...');
+			return ;
+		}
 		//изменение элемента
 		if (editing.yes === true) {					
 			console.log('EDIT in addToDo!');
@@ -100,7 +109,8 @@ const ToDo = (props) => {
 	/* редактирование элемента */
 	const editToDo = () => {				
 		if(selectedElement == null) {
-			alert("ToDo is not selected");
+			setStatus({show: true, value: "ToDo is not selected", error: true});
+			// alert("ToDo is not selected");
 			return ;
 		}
 		if (editing.yes === true) {
@@ -118,12 +128,15 @@ const ToDo = (props) => {
 	const setAsCompleted = () => {	
 		if (!editing.yes) {
 			if(selectedElement == null) {
-				alert("ToDo is not selected");
+				setStatus({show: true, value: "ToDo is not selected", error: true});
+				// alert(status.show + ' ' + status.value);
+				// alert("ToDo is not selected");
 				return ;
 			}
 			let newTodos = [...todos];
 			newTodos[selectedElement].completed = true;
 			setTodos(newTodos);
+			setStatus({show: true, value: "Congrats!", error: false});
 		}
 	}
 
@@ -137,7 +150,8 @@ const ToDo = (props) => {
 				setSelectedElement(null);
 
 			} else if (selectedElement == null) {
-				alert("ToDo is not selected");
+				setStatus({show: true, value: "ToDo is not selected", error: true});
+				// alert("ToDo is not selected");
 				return ;
 			}
 		}
@@ -155,7 +169,8 @@ const ToDo = (props) => {
 				}, []);
 
 				if (cntCompl === 0) {
-					alert("You don't have completed ToDos");
+					// alert("You don't have completed ToDos");
+					setStatus({show: true, value: "You don't have completed ToDos", error: true});
 					return ;
 				}
 				if (window.confirm("Are you shure?"))
@@ -167,16 +182,21 @@ const ToDo = (props) => {
 				}
 			}
 			else if (todos.length === 0)
-				alert("ToDo List is empty...");
+				setStatus({show: true, value: "ToDo List is empty...", error: true});
+				// alert("ToDo List is empty...");
 		}
 	}
 
+
+
+
 	/* cчетчик оставшихся элементов */
+	console.log(status);
 	const countElements = () => {
 		return todos.reduce((sum, elem) => (elem.completed === false) ? sum+=1 : sum+=0, 0);
 	}
 
-	var counterClassNames = classnames(
+	const counterClassNames = classnames(
 		'counter', {
 		'counter-zero': countElements() === 0,
 	  });
@@ -196,10 +216,19 @@ const ToDo = (props) => {
 
 			<div className="todo__form">
 				<InputToDo addToDo={addToDo} editing={editing} selected={todos[selectedElement]}></InputToDo> {/* editing??? copy? */}
-				<CompleteToDo setAsCompleted={setAsCompleted}></CompleteToDo>
-				<EditToDo editToDo={editToDo} editing={editing}></EditToDo>  {/* editing??? copy? */}
-				<DeleteToDo deleteToDo={deleteToDo}></DeleteToDo>
-				<DeleteAll deleteAll={deleteAll}></DeleteAll>
+				<div className="todo__form_actionsfield">
+					<div className='todo__form_actionsfield-item'>
+						<CompleteToDo setAsCompleted={setAsCompleted}></CompleteToDo>
+						<EditToDo editToDo={editToDo} editing={editing}></EditToDo>  {/* editing??? copy? */}
+						<DeleteToDo deleteToDo={deleteToDo}></DeleteToDo>
+						<DeleteAll deleteAll={deleteAll}></DeleteAll>
+					</div>
+					<div className='todo__form_actionsfield-item'>
+						<Status status={status} setStatus={setStatus}></Status>
+					</div>
+				</div>
+
+
 				{/* <button onClick={this.deleteAll.bind(this)} id="deleteAll" className="todo__form-button">Delete All</button> */}
 			</div>
 			

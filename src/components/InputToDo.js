@@ -7,13 +7,9 @@ const InputToDo = (props) => {
 	const [input, setInput] = useState('');
 
 	const addToDo = () => {
-		if(input) {
-			props.addToDo(input);
-			setInput('');
-		} else if (input === '')
-		{
-			alert('Field is empty...');
-		}
+
+		props.addToDo(input);
+		setInput('');
 	};
 
 	const inputChange = event => {
