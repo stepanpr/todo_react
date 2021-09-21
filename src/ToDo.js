@@ -1,6 +1,4 @@
-
-
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import classnames from 'classnames';
 import NewToDo from "./components/NewToDo";
@@ -13,20 +11,86 @@ import Status from "./components/Status"
 
 
 
+function reducer(state, action) {
+	console.log(action);
+	switch (action.type) {
 
+		case 'add': {
+			const { title } = action.payload;
+			return [
+				...state,
+				{                  													//формируем объект нового todo
+					id: uuidv4(), 
+					title: title,
+					completed: false,
+					selected: false
+				}
+			];
+		}
+
+		case 'select': {
+			const { indexOfCurrent } = action.payload;
+			const newTodos = [...state];
+			if (newTodos[indexOfCurrent].selected === true ) {						//если элемент (выполненный) уже выделен, то снимаем выделение
+				newTodos[indexOfCurrent].selected = false;
+				return newTodos;
+			}
+			newTodos.map((elem) => elem.selected = false); 							//снимаем выделение (если есть) со всех значений кроме выполненных
+			newTodos[indexOfCurrent].selected = true;								//меняем поле selected текущего элемента на true
+			return newTodos;
+		}
+
+		case 'edit': {
+			const { title, selectedElement } = action.payload;
+			const newTodos = [...state];
+			newTodos[selectedElement].title = title;
+			return newTodos;
+		}
+
+		case 'completed': {
+			const { selectedElement } = action.payload;
+			const newTodos = [...state];
+			newTodos[selectedElement].completed = true;
+			return newTodos;
+		}
+
+		case 'delete': {
+			const { selectedElement } = action.payload;
+			return state.filter((elem) => elem.id !== state[selectedElement].id);
+		}
+		
+		case 'deleteAll': {
+			let cntCompl = 0;
+			const newTodos = state.reduce((newArr, elem) => { 
+				elem.completed === true ? cntCompl++ : newArr = [...newArr, elem]; 
+				return newArr; 
+			}, []);
+			return newTodos;
+		}
+
+
+		default:
+			return state;
+	}
+
+}
    							
 
 const ToDo = (props) => {
 
-	let [todos, setTodos] = useState([
+
+	/* states: */ 
+	let initialToDoList = [
 		{id: uuidv4(), title: 'Hello', completed: true, selected: false},
 		{id: uuidv4(), title: 'default todo', completed: false, selected: false},
 		{id: uuidv4(), title: 'default todo', completed: false, selected: false},
-	]);
+	];
+
+	const [todos, dispatch] = useReducer(reducer, initialToDoList);									//const [todos, dispatch] = useReducer(reducer, {list: initialState});
 
 	const [editing, setEditing] = useState({ yes: false, value: '', })
 
-	let [selectedElement, setSelectedElement] = useState(null);    					//выделенный элемент в текущий момент
+	let [selectedElement, setSelectedElement] = useState(null);    									//выделенный элемент в текущий момент
 
 	const [status, setStatus] = useState({show: false, value: '555', error: false});
 
@@ -41,26 +105,19 @@ const ToDo = (props) => {
 			setSelectedElement(indexOfCurrent);
 			console.log(indexOfCurrent + ' ' + selectedElement);
 
-			const newTodos = [...todos];
-
-			if (todo.selected === true) { 								//если элемент (выполненный) уже выделен, то снимаем выделение
-				newTodos[indexOfCurrent].selected = false;
-				setTodos(newTodos);
+			if (todo.selected === true) { 														//если элемент (выполненный) уже выделен, то снимаем выделение
+				dispatch({ type: 'select', payload: { indexOfCurrent } });
 				setSelectedElement(null);
 				return ;
 			}
-
-			newTodos.map((elem) => elem.selected = false); 				//снимаем выделение (если есть) со всех значений кроме выполненных
-			newTodos[indexOfCurrent].selected = true;					//меняем поле selected текущего элемента на true
-
-			setTodos(newTodos);
+			dispatch({ type: 'select', payload: { indexOfCurrent } });
 		}
 	}
 
 
 	/* добавление и изменение элемента */
-	const addToDo = (todoTitle) => {  
-		if (todoTitle === "")
+	const addToDo = (title) => {  
+		if (title === "")
 		{
 			setStatus({show: true, value: "Field is empty...", error: true});
 			return ;
@@ -68,24 +125,14 @@ const ToDo = (props) => {
 		//изменение элемента
 		if (editing.yes === true) {					
 			console.log('EDIT in addToDo!');
-			setTodos(() => {
-				const newTodos = [...todos];
-				newTodos[selectedElement].title = todoTitle;
-				return newTodos;
-			});
+
+			dispatch({ type: 'edit', payload: { title, selectedElement } });
 			setEditing( {yes: false, value: ''} );
+
 			return ;
 		}
-
-		//добавление элемента
-		let newTodo = { 											//формируем объект нового todo
-			id: uuidv4(), 
-			title: todoTitle,
-			completed: false,
-			selected: false
-		};
-		const newTodos = [...todos, newTodo];
-		setTodos(newTodos);
+		//добавление элемента									
+		dispatch({ type: 'add', payload: { title } });
 	}
 
 
@@ -96,7 +143,6 @@ const ToDo = (props) => {
 			return ;
 		}
 		if (editing.yes === true) {
-
 			setEditing( {yes: false, value: ''} )
 		} else {
 			let val = todos[selectedElement].title;
@@ -117,9 +163,7 @@ const ToDo = (props) => {
 				setStatus({show: true, value: "This has already been done", error: true});
 				return ;
 			}
-			const newTodos = [...todos];
-			newTodos[selectedElement].completed = true;
-			setTodos(newTodos);
+			dispatch({ type: 'completed', payload: { selectedElement }});
 			setStatus({show: true, value: "Congrats!", error: false});
 		}
 	}
@@ -128,11 +172,9 @@ const ToDo = (props) => {
 	const deleteToDo = () => {
 		if (!editing.yes) {
 			if (selectedElement != null) {
-
-				const newTodos = todos.filter((elem) => elem.id !== todos[selectedElement].id);
-				setTodos(newTodos);
+				console.log(selectedElement + 'dddddddd');
+				dispatch({ type: 'delete', payload: { selectedElement } })
 				setSelectedElement(null);
-
 			} else if (selectedElement == null) {
 				setStatus({show: true, value: "ToDo is not selected", error: true});
 				return ;
@@ -146,10 +188,7 @@ const ToDo = (props) => {
 			if(todos.length > 0)
 			{
 				let cntCompl = 0;
-				const newTodos = todos.reduce((newArr, elem) => { 
-					elem.completed === true ? cntCompl++ : newArr = [...newArr, elem]; 
-					return newArr; 
-				}, []);
+				todos.map(elem => (elem.completed === true) ? cntCompl++ : cntCompl);
 
 				if (cntCompl === 0) {
 					setStatus({show: true, value: "You don't have completed ToDos", error: true});
@@ -157,9 +196,7 @@ const ToDo = (props) => {
 				}
 				if (window.confirm("Are you shure?"))
 				{
-					setTodos(() => {
-						return newTodos;
-					});
+					dispatch({ type: 'deleteAll'});
 					setSelectedElement(null);
 				}
 			}
