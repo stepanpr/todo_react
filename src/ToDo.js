@@ -11,6 +11,16 @@ import Status from "./components/Status"
 
 
 
+function initialToDos() {
+	return (
+		[
+			{id: uuidv4(), title: 'Hello', completed: true, selected: false},
+			{id: uuidv4(), title: 'default todo', completed: false, selected: false},
+			{id: uuidv4(), title: 'default todo', completed: false, selected: false},
+		]
+	);
+}
+
 function reducer(state, action) {
 	console.log(action);
 	switch (action.type) {
@@ -79,14 +89,11 @@ function reducer(state, action) {
 const ToDo = (props) => {
 
 
-	/* states: */ 
-	let initialToDoList = [
-		{id: uuidv4(), title: 'Hello', completed: true, selected: false},
-		{id: uuidv4(), title: 'default todo', completed: false, selected: false},
-		{id: uuidv4(), title: 'default todo', completed: false, selected: false},
-	];
+	
+	let list = [];
 
-	const [todos, dispatch] = useReducer(reducer, initialToDoList);									//const [todos, dispatch] = useReducer(reducer, {list: initialState});
+	/* states: */ 
+	const [todos, dispatch] = useReducer(reducer, list, initialToDos);									//const [todos, dispatch] = useReducer(reducer, {list: initialState});
 
 	const [editing, setEditing] = useState({ yes: false, value: '', })
 
