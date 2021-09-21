@@ -29,7 +29,7 @@ function reducer(state, action) {
 			const { title } = action.payload;
 			return [
 				...state,
-				{                  													//формируем объект нового todo
+				{                  																//формируем объект нового todo
 					id: uuidv4(), 
 					title: title,
 					completed: false,
@@ -40,27 +40,40 @@ function reducer(state, action) {
 
 		case 'select': {
 			const { indexOfCurrent } = action.payload;
-			const newTodos = [...state];
-			if (newTodos[indexOfCurrent].selected === true ) {						//если элемент (выполненный) уже выделен, то снимаем выделение
-				newTodos[indexOfCurrent].selected = false;
+			if (state[indexOfCurrent].selected === true ) {										//если элемент (выполненный) уже выделен, то снимаем выделение
+				const newTodos = state.map(elem => {
+					if (elem.selected === true)
+						elem.selected = false;
+						return elem;
+				});
+				console.log(newTodos);
 				return newTodos;
 			}
-			newTodos.map((elem) => elem.selected = false); 							//снимаем выделение (если есть) со всех значений кроме выполненных
-			newTodos[indexOfCurrent].selected = true;								//меняем поле selected текущего элемента на true
+
+			const newTodos = state.map((elem) => {														//снимаем выделение (если есть) со всех значений кроме выделенного
+				(state[indexOfCurrent] === elem ) ? elem.selected = true : elem.selected = false;  		//меняем поле selected текущего элемента на true
+				return elem;															
+			});							
 			return newTodos;
 		}
 
 		case 'edit': {
 			const { title, selectedElement } = action.payload;
-			const newTodos = [...state];
-			newTodos[selectedElement].title = title;
+			const newTodos = state.map((elem) => {
+				if (state[selectedElement] === elem)
+					elem.title = title;
+				return elem;
+			})
 			return newTodos;
 		}
 
 		case 'completed': {
 			const { selectedElement } = action.payload;
-			const newTodos = [...state];
-			newTodos[selectedElement].completed = true;
+			const newTodos = state.map((elem) => {
+				if (state[selectedElement] === elem)
+					elem.completed = true;
+				return elem;
+			});
 			return newTodos;
 		}
 
@@ -70,9 +83,9 @@ function reducer(state, action) {
 		}
 		
 		case 'deleteAll': {
-			let cntCompl = 0;
 			const newTodos = state.reduce((newArr, elem) => { 
-				elem.completed === true ? cntCompl++ : newArr = [...newArr, elem]; 
+				if (elem.completed !== true)
+					newArr = [...newArr, elem]; 
 				return newArr; 
 			}, []);
 			return newTodos;
@@ -135,7 +148,7 @@ const ToDo = (props) => {
 
 			dispatch({ type: 'edit', payload: { title, selectedElement } });
 			setEditing( {yes: false, value: ''} );
-
+			setSelectedElement(null);                                             				//отмена выделения элемента после редактирования
 			return ;
 		}
 		//добавление элемента									
@@ -150,10 +163,10 @@ const ToDo = (props) => {
 			return ;
 		}
 		if (editing.yes === true) {
-			setEditing( {yes: false, value: ''} )
+			setEditing( {yes: false, value: ''});
 		} else {
 			let val = todos[selectedElement].title;
-			setEditing({yes: true, value: val})
+			setEditing({yes: true, value: val});
 		}
 		
 	}
@@ -234,7 +247,7 @@ const ToDo = (props) => {
 			<div className="todo__list">
 				<ul className="todo__list-todos">
 				{todos.map(todo => (
-					<NewToDo selectToDo={() => selectToDo(todo)} todo={todo} key={todo.id} ></NewToDo>
+					<NewToDo selectToDo={() => selectToDo(todo)} todo={todo} key={todo.id} selectedElement={selectedElement}></NewToDo>
 				))}
 				</ul>
 			</div>

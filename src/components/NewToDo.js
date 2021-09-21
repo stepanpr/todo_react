@@ -8,7 +8,7 @@ const NewToDo = (props) => {
 	const liClassNames = classnames({
 		'todo__list-todos__item': true,
 		'item-completed': props.todo.completed,
-		'item-selected': props.todo.selected,
+		'item-selected': props.todo.selected && props.selectedElement != null,
 	});
 
 	const selectToDo = (event) => {
